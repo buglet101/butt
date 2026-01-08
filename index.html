@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Private Number Draw</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{font-family:sans-serif;background:#111;color:#fff;text-align:center;padding:40px}
+button{padding:16px 30px;font-size:20px;border-radius:10px;border:none;background:#00ffa6;color:#000}
+#num{font-size:70px;margin-top:30px}
+small{opacity:.6}
+</style>
+</head>
+<body>
+
+<h1>🎲 Draw Your Secret Number</h1>
+<p>Click once. Your number is locked forever.</p>
+
+<button onclick="draw()">DRAW</button>
+<div id="num"></div>
+<small id="left"></small>
+
+<script>
+let numbers = JSON.parse(localStorage.getItem("numbers") || "[]");
+if(numbers.length === 0){
+  numbers = [1,2,3,4,5,6,7,8,9,10];
+  localStorage.setItem("numbers", JSON.stringify(numbers));
+}
+
+function draw(){
+  if(localStorage.getItem("myNumber")){
+    document.getElementById("num").innerText = localStorage.getItem("myNumber");
+    return;
+  }
+
+  if(numbers.length === 0){
+    document.getElementById("num").innerText = "All numbers taken";
+    return;
+  }
+
+  let pick = numbers.splice(Math.floor(Math.random()*numbers.length),1)[0];
+  localStorage.setItem("numbers", JSON.stringify(numbers));
+  localStorage.setItem("myNumber", pick);
+
+  document.getElementById("num").innerText = pick;
+}
+</script>
+
+</body>
+</html>
